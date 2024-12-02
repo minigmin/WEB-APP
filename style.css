@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  grid-template-rows: 100vh;
+}
+
+.trigger-zone {
+  width: 11rem;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar {
+  background-color: #fafafa;
+  padding: 5vh 20%;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.sidebar h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5e6484;
+}
+
+.sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.8125rem;
+  padding-top: 0.8125rem;
+}
+
+.sidebar li {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #5e6484;
+}
