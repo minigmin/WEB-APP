@@ -12,6 +12,7 @@
   display: grid;
   grid-template-columns: 11rem 1fr;
   grid-template-rows: 100vh;
+  transition: grid-template-columns 0.5s ease-in-out;
 }
 
 .trigger-zone {
@@ -50,4 +51,91 @@
   font-size: 1.5rem;
   font-weight: 500;
   color: #5e6484;
+}
+
+.contents {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  padding: 6.25rem 3.125rem;
+  gap: 2rem;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.contents .cambox {
+  width: 39.625rem;
+  height: 51.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cambox h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5e6484;
+}
+
+.cambox .cam {
+  width: 39.625rem;
+  height: 47.875rem;
+  background-color: #5e6484;
+  border-radius: 1.25rem;
+}
+
+.contents .lengthbox {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 31.125rem;
+  height: 51.5rem;
+  justify-content: space-between;
+}
+
+.contents .timebox {
+  width: 31.125rem;
+  height: 24.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.timebox h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #5e6484;
+  padding-top: 8px;
+}
+
+.timebox .timeline {
+  width: 31.125rem;
+  height: 21.0625rem;
+  background-color: #5e6484;
+  padding: 2rem;
+  border-radius: 1.25rem;
+}
+
+.stretchbox {
+  width: 31.125rem;
+  height: 24.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: space-between;
+}
+
+.stretchbox h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #5e6484;
+  padding-top: 8px;
+}
+
+.stretchbox .stretch {
+  width: 31.125rem;
+  height: 21.0625rem;
+  background-color: #5e6484;
+  padding: 2rem;
+  border-radius: 1.25rem;
 }
