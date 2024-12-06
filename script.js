@@ -1,22 +1,9 @@
 $(document).ready(function () {
-//Github를 위한 무한 리다이렉트 방지//
-  if (!window.location.href.endsWith('index.html')) {
-    // index.html이 없으면 리다이렉트
-    window.location.href = window.location.href + 'index.html';
-  }
- 
   //사이드바 내 버튼 인터렉션//
-  const currentPage = window.location.pathname.split('/').pop(); // 파일 이름만 가져옴 (index.html)
+  $('.button').removeClass('active');
 
-  // 각 버튼의 href와 현재 페이지 비교
-  $('.button').each(function () {
-    const link = $(this).attr('href').split('/').pop(); // href의 파일 이름만 가져옴
-
-    // 현재 페이지와 href가 일치하면 active 클래스 추가
-    if (currentPage === link) {
-      $(this).addClass('active');
-    }
-  });
+  // 첫 번째 버튼에 active 클래스 추가
+  $('.button:first').addClass('active');
 
   //막대그래프 생성//
   let chartDom = $(`.chart`)[0];
@@ -147,6 +134,4 @@ $(document).ready(function () {
         return '#5E6484'; // 기본 색상
     }
   }
-  
-  
 });
