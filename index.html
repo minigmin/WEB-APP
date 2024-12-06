@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="KR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,20 +15,27 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <title>Document</title>
   </head>
   <body>
     <div class="grid-container">
-      <div class="trigger-zone"></div>
       <div class="sidebar">
-        <h1>Home</h1>
+        <h1>Menu</h1>
         <ul>
-          <li>Home</li>
-          <li>Report</li>
-          <li>Stretch</li>
+          <li>
+            <a href="./index.html" class="button"
+              >Report <span class="dot"></span
+            ></a>
+          </li>
+          <li>
+            <a href="./stretch.html" class="button"
+              >Stretch <span class="dot"></span
+            ></a>
+          </li>
         </ul>
       </div>
-      <section class="contents">
+      <div class="contents">
         <div class="cambox">
           <h1>Camera</h1>
           <div class="cam"></div>
@@ -36,14 +43,55 @@
         <div class="lengthbox">
           <div class="timebox">
             <h1>Timeline</h1>
-            <div class="timeline"></div>
+            <div class="timeline">
+              <ul class="scroll-container">
+                <li>
+                  <h2>00:02:33</h2>
+                  <p>화면 이탈</p>
+                </li>
+                <hr class="line"></hr>
+                <li>
+                  <h2>00:01:55</h2>
+                  <p>턱 괴기 감지</p>
+                </li>
+                <hr class="line"></hr>
+                <li>
+                  <h2>00:01:31</h2>
+                  <p>거북목 감지</p>
+                </li><hr class="line"></hr>
+                <li>
+                  <h2>00:00:54</h2>
+                  <p>어깨 틀어짐</p>
+                </li><hr class="line"></hr>
+                <li>
+                  <h2>00:00:26</h2>
+                  <p>거북목 감지</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="alertbox">
+            <div class="alert">
+              <div class="boxtitle">
+              <p>2024.12.06</p>
+              <h2>오늘의 알람 횟수</h2>
+            </div>
+            <div class="chart">
+
+            </div>
+            </div>
           </div>
           <div class="stretchbox">
-            <h1>Stretch</h1>
-            <div class="stretch"></div>
+            <div class="stretch">
+              <h2>의자에 앉아서 할 수 있는<br>스트레칭 게임을 즐겨보세요.</h2>
+              <button class="bt">지금 시작하기</button>
+            </div>
+            <div class="stretch-img">
+              <img src="./image/main1.png" alt="">
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
