@@ -13,16 +13,16 @@ body {
 }
 
 .grid-container {
+  width: 100vw;
+  height: 100vh;
   display: grid;
   grid-template-columns: 11rem 1fr;
   grid-template-rows: 100vh;
-  transition: grid-template-columns 0.5s ease-in-out;
 }
 
 .sidebar {
   background-color: #fafafa;
   padding: 6.25rem 1.3125rem;
-  transition: transform 0.5s ease-in-out;
 }
 
 .sidebar h1 {
@@ -94,12 +94,13 @@ body {
 }
 
 .contents {
-  display: flex;
-  align-items: center;
   width: 1160px;
   height: 824px;
-  margin: 6.25rem 3.125rem;
+  margin: auto;
   gap: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .contents .cambox {
