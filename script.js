@@ -1,4 +1,9 @@
 $(document).ready(function () {
+//Github를 위한 무한 리다이렉트 방지//
+  if (!window.location.href.endsWith('index.html')) {
+    // index.html이 없으면 리다이렉트
+    window.location.href = window.location.href + 'index.html';
+  }
  
   //사이드바 내 버튼 인터렉션//
   const currentPage = window.location.pathname.split('/').pop(); // 파일 이름만 가져옴 (index.html)
