@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+body {
+  background-color: #f2f3f7;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  grid-template-rows: 100vh;
+  transition: grid-template-columns 0.5s ease-in-out;
+}
+
+.sidebar {
+  background-color: #fafafa;
+  padding: 6.25rem 1.3125rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+.sidebar h1 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #5e6484;
+  padding-left: 0.9375rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.875rem;
+  padding-top: 0.875rem;
+}
+
+.sidebar li {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #5e6484;
+}
+
+.sidebar li a {
+  text-decoration: none;
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #5e6484;
+}
+
+.button {
+  color: #5e6484;
+  border-radius: 3.125rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4375rem 0.9375rem;
+  width: 8.3125rem;
+  height: 2.1875rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.button:hover {
+  color: #627bff;
+}
+
+.dot {
+  display: block;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  opacity: 0;
+  background-color: #627bff;
+  position: absolute;
+  top: 14.5px;
+  right: 15px;
+}
+
+.button.active {
+  color: #627bff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.button.active .dot {
+  opacity: 1;
+}
