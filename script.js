@@ -5,6 +5,51 @@ $(document).ready(function () {
   // 첫 번째 버튼에 active 클래스 추가
   $('.button:first').addClass('active');
 
+  //Teachable Machine 모델 적용 코드
+
+  const webcamElement = document.getElementById('webcam');
+  const resultElement = document.getElementById('result');
+
+  async function init() {
+    const modelURL = './model/model.json';
+
+    async function loadModel() {
+      const model = await tf.loadLayersModel(modelURL);
+      console.log('Teachable Machine 모델 로드 완료');
+      return model;
+    }
+    // 카메라 스트림 연결
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    webcamElement.srcObject = stream;
+
+    // 카메라 데이터가 로드되면 예측 시작
+    webcamElement.onloadeddata = () => {
+      setInterval(() => detectPose(model), 100); // 100ms 간격으로 예측
+    };
+  }
+
+  async function detectPose(model) {
+    // 비디오를 Tensor로 변환
+    const inputTensor = tf.browser
+      .fromPixels(webcamElement)
+      .resizeBilinear([634, 766])
+      .expandDims()
+      .toFloat()
+      .div(255);
+
+    // 모델 예측 수행
+    const predictions = await model.predict(inputTensor).data();
+
+    // 예측 결과를 출력
+    const maxIndex = predictions.indexOf(Math.max(...predictions));
+    const labels = ['포즈 1', '포즈 2', '포즈 3', '포즈 4'];
+    resultElement.textContent = `인식된 포즈: ${labels[maxIndex]} (확률: ${(
+      predictions[maxIndex] * 100
+    ).toFixed(2)}%)`;
+
+    inputTensor.dispose(); // 메모리 해제
+  }
+
   //막대그래프 생성//
   let chartDom = $(`.chart`)[0];
   let myChart = echarts.init(chartDom);
