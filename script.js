@@ -76,6 +76,9 @@ $(document).ready(function () {
     const detectedLabel = labels[maxIndex];
     resultElement.text(`인식된 포즈: ${detectedLabel} (확률: ${confidence}%)`);
     labelCounts[detectedLabel] += 1; // 해당 포즈의 인식 횟수 증가
+    console.log(`인식된 포즈: ${detectedLabel}, 확률: ${confidence}%`);
+    console.log(`전체 예측 결과:`, predictions);
+    console.log('현재 포즈별 인식 횟수:', labelCounts);
 
     targetElement.removeClass(
       labels.map((_, index) => `pose-${index + 1}`).join(' ')
