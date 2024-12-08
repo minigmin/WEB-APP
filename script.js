@@ -6,6 +6,20 @@ $(document).ready(function () {
   $('.button:first').addClass('active');
 
   //Teachable Machine 모델 적용 코드
+  function startCamera() {
+    navigator.mediaDevices
+      .getUserMedia({ video: true }) // 카메라 스트림 요청
+      .then((stream) => {
+        videoElement.srcObject = stream; // 스트림을 <video> 요소에 연결
+        videoElement.play(); // 비디오 재생 시작
+      })
+      .catch((err) => {
+        console.error('카메라 접근 실패:', err);
+        alert('카메라를 사용할 수 없습니다. 권한을 허용했는지 확인하세요.');
+      });
+  }
+
+  startCamera();
 
   const webcamElement = document.getElementById('webcam');
   const resultElement = document.getElementById('result');
