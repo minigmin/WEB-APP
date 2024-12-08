@@ -21,12 +21,26 @@ $(document).ready(function () {
     // 카메라 스트림 연결
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     webcamElement.srcObject = stream;
+    webcamElement.play();
 
     // 카메라 데이터가 로드되면 예측 시작
     webcamElement.onloadeddata = () => {
       setInterval(() => detectPose(model), 100); // 100ms 간격으로 예측
     };
   }
+
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true }); // 카메라 스트림 요청
+      const videoElement = document.getElementById('webcam'); // 비디오 태그 가져오기
+      videoElement.srcObject = stream; // 스트림 연결
+      videoElement.play(); // 비디오 재생
+    } catch (err) {
+      console.error('카메라 접근 실패:', err);
+      alert('카메라를 사용할 수 없습니다. 권한을 허용했는지 확인하세요.');
+    }
+  }
+  startCamera();
 
   async function detectPose(model) {
     // 비디오를 Tensor로 변환
