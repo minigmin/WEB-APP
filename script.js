@@ -1,12 +1,20 @@
 $(document).ready(function () {
+  tf.setBackend('cpu');
+
   //사이드바 내 버튼 인터렉션//
   $('.button').removeClass('active');
 
   // 첫 번째 버튼에 active 클래스 추가
   $('.button:first').addClass('active');
 
+  //Teachable Machine 적용 코드
+
   //웹캠 적용 코드
   const videoElement = $('#webcam')[0];
+  const resultElement = $('#result');
+  const targetElement = $('.target');
+  let model;
+  const modelURL = './model/model.json';
 
   function startCamera() {
     navigator.mediaDevices
@@ -26,64 +34,61 @@ $(document).ready(function () {
       });
   }
 
-  startCamera();
-
-  const webcamElement = document.getElementById('webcam');
-  const resultElement = document.getElementById('result');
-
-  async function init() {
-    const modelURL = './model/model.json';
-
-    async function loadModel() {
-      const model = await tf.loadLayersModel(modelURL);
-      console.log('Teachable Machine 모델 로드 완료');
-      return model;
-    }
-    // 카메라 스트림 연결
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    webcamElement.srcObject = stream;
-    webcamElement.play();
-
-    // 카메라 데이터가 로드되면 예측 시작
-    webcamElement.onloadeddata = () => {
-      setInterval(() => detectPose(model), 100); // 100ms 간격으로 예측
-    };
-  }
-
-  async function startCamera() {
+  async function loadModel() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true }); // 카메라 스트림 요청
-      const videoElement = document.getElementById('webcam'); // 비디오 태그 가져오기
-      videoElement.srcObject = stream; // 스트림 연결
-      videoElement.play(); // 비디오 재생
+      model = await tf.loadGraphModel(modelURL);
+      console.log('Teachable Machine 모델 로드 완료');
     } catch (err) {
-      console.error('카메라 접근 실패:', err);
-      alert('카메라를 사용할 수 없습니다. 권한을 허용했는지 확인하세요.');
+      console.error('모델 로드 실패:', err);
+      alert('모델을 로드할 수 없습니다. 경로를 확인하세요.');
     }
   }
-  startCamera();
 
-  async function detectPose(model) {
-    // 비디오를 Tensor로 변환
+  async function detectPose() {
+    if (!model) return;
+
+    // 웹캠 영상을 Tensor로 변환
     const inputTensor = tf.browser
-      .fromPixels(webcamElement)
-      .resizeBilinear([634, 766])
-      .expandDims()
+      .fromPixels(videoElement)
+      .resizeBilinear([224, 224]) // 모델 입력 크기로 조정
+      .expandDims(0)
       .toFloat()
-      .div(255);
+      .div(255); // 정규화
 
     // 모델 예측 수행
     const predictions = await model.predict(inputTensor).data();
-
-    // 예측 결과를 출력
+    const labels = ['포즈 1', '포즈 2', '포즈 3', '포즈 4']; // Teachable Machine 라벨
     const maxIndex = predictions.indexOf(Math.max(...predictions));
-    const labels = ['포즈 1', '포즈 2', '포즈 3', '포즈 4'];
-    resultElement.textContent = `인식된 포즈: ${labels[maxIndex]} (확률: ${(
-      predictions[maxIndex] * 100
-    ).toFixed(2)}%)`;
+    const confidence = (predictions[maxIndex] * 100).toFixed(2); // 확률 계산
+
+    // 결과 출력
+    resultElement.text(
+      `인식된 포즈: ${labels[maxIndex]} (확률: ${confidence}%)`
+    );
+
+    // 특정 포즈에 따라 클래스 추가/변경
+    targetElement.removeClass('pose-1 pose-2 pose-3 pose-4'); // 이전 클래스 제거
+    targetElement.addClass(`pose-${maxIndex + 1}`); // 새로운 클래스 추가
 
     inputTensor.dispose(); // 메모리 해제
+
+    // 다음 프레임 예측
+    requestAnimationFrame(detectPose);
   }
+
+  async function init() {
+    await loadModel(); // 모델 로드
+    startCamera(); // 카메라 시작
+
+    // 비디오 데이터가 로드되면 포즈 감지 시작
+    videoElement.onloadeddata = () => {
+      console.log('비디오 로드 완료');
+      detectPose(); // 포즈 감지 시작
+    };
+  }
+
+  // 초기화 호출
+  init();
 
   //막대그래프 생성//
   let chartDom = $(`.chart`)[0];
