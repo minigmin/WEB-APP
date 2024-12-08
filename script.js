@@ -14,7 +14,10 @@ $(document).ready(function () {
   const resultElement = $('#result');
   const targetElement = $('.target');
   let model;
+  let labels = []; // metadata.json에서 라벨 정보를 저장
+  const labelCounts = {}; // 각 포즈별 인식 횟수 저장
   const modelURL = './model/model.json';
+  const metadataURL = './model/metadata.json'; // metadata.json 경로
 
   function startCamera() {
     navigator.mediaDevices
@@ -38,14 +41,23 @@ $(document).ready(function () {
     try {
       model = await tf.loadLayersModel(modelURL);
       console.log('Teachable Machine 모델 로드 완료');
+
+      const response = await fetch(metadataURL);
+      const metadata = await response.json();
+      labels = metadata.labels; // metadata에서 라벨 가져오기
+      labels.forEach((label) => {
+        labelCounts[label] = 0; // 각 라벨의 초기 인식 횟수 0으로 설정
+      });
+
+      console.log('Metadata 로드 완료:', labels);
     } catch (err) {
-      console.error('모델 로드 실패:', err);
-      alert('모델을 로드할 수 없습니다. 경로를 확인하세요.');
+      console.error('모델 또는 metadata 로드 실패:', err);
+      alert('모델 및 metadata 로드에 실패했습니다. 경로를 확인하세요.');
     }
   }
 
   async function detectPose() {
-    if (!model) return;
+    if (!model || labels.length === 0) return;
 
     // 웹캠 영상을 Tensor로 변환
     const inputTensor = tf.browser
@@ -57,18 +69,22 @@ $(document).ready(function () {
 
     // 모델 예측 수행
     const predictions = await model.predict(inputTensor).data();
-    const labels = ['포즈 1', '포즈 2', '포즈 3', '포즈 4']; // Teachable Machine 라벨
     const maxIndex = predictions.indexOf(Math.max(...predictions));
     const confidence = (predictions[maxIndex] * 100).toFixed(2); // 확률 계산
 
     // 결과 출력
-    resultElement.text(
-      `인식된 포즈: ${labels[maxIndex]} (확률: ${confidence}%)`
-    );
+    const detectedLabel = labels[maxIndex];
+    resultElement.text(`인식된 포즈: ${detectedLabel} (확률: ${confidence}%)`);
+    labelCounts[detectedLabel] += 1; // 해당 포즈의 인식 횟수 증가
 
-    // 특정 포즈에 따라 클래스 추가/변경
-    targetElement.removeClass('pose-1 pose-2 pose-3 pose-4'); // 이전 클래스 제거
+    targetElement.removeClass(
+      labels.map((_, index) => `pose-${index + 1}`).join(' ')
+    ); // 이전 클래스 제거
     targetElement.addClass(`pose-${maxIndex + 1}`); // 새로운 클래스 추가
+
+    console.log('현재 포즈 인식 횟수:', labelCounts);
+
+    updateData(detectedLabel);
 
     inputTensor.dispose(); // 메모리 해제
 
@@ -77,7 +93,7 @@ $(document).ready(function () {
   }
 
   async function init() {
-    await loadModel(); // 모델 로드
+    await loadModel(); // 모델과 metadata 로드
     startCamera(); // 카메라 시작
 
     // 비디오 데이터가 로드되면 포즈 감지 시작
@@ -91,17 +107,17 @@ $(document).ready(function () {
   init();
 
   //막대그래프 생성//
+  let data = [
+    { name: '화면 이탈', value: 0, status: '좋음', color: '#DFF6E1' },
+    { name: '거북이 목', value: 0, status: '좋음', color: '#DFF6E1' },
+    { name: '턱 괴기', value: 0, status: '나쁨', color: '#FDE8E8' },
+    { name: '어깨 비틀림', value: 0, status: '경고', color: '#FFF4E0' },
+  ];
+
   let chartDom = $(`.chart`)[0];
   let myChart = echarts.init(chartDom);
 
-  let data = [
-    { name: '화면 이탈', value: 2, status: '좋음', color: '#DFF6E1' },
-    { name: '거북이 목', value: 2, status: '좋음', color: '#DFF6E1' },
-    { name: '턱 괴기', value: 7, status: '나쁨', color: '#FDE8E8' },
-    { name: '어깨 비틀림', value: 5, status: '경고', color: '#FFF4E0' },
-  ];
-
-  var option = {
+  let option = {
     tooltip: {
       show: false,
     },
@@ -204,6 +220,26 @@ $(document).ready(function () {
     })),
   };
 
+  function updateChart() {
+    const updatedData = data.map((item) => ({
+      value: item.value,
+      itemStyle: {
+        borderRadius: [0, 24, 24, 0],
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            { offset: 0, color: '#9FAEFF' },
+            { offset: 1, color: '#768BFF' },
+          ],
+        },
+      },
+    }));
+  }
+
   myChart.setOption(option);
 
   function getTextColor(status) {
@@ -218,5 +254,15 @@ $(document).ready(function () {
       default:
         return '#5E6484'; // 기본 색상
     }
+  }
+
+  function updateData(detectedLabel) {
+    data = data.map((item) => {
+      if (item.name === detectedLabel) {
+        return { ...item, value: item.value + 1 };
+      }
+      return item;
+    });
+    updateChart();
   }
 });
