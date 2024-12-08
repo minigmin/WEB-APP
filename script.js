@@ -5,10 +5,17 @@ $(document).ready(function () {
   // 첫 번째 버튼에 active 클래스 추가
   $('.button:first').addClass('active');
 
-  //Teachable Machine 모델 적용 코드
+  //웹캠 적용 코드
+  const videoElement = $('#webcam')[0];
+
   function startCamera() {
     navigator.mediaDevices
-      .getUserMedia({ video: true }) // 카메라 스트림 요청
+      .getUserMedia({
+        video: {
+          width: { ideal: 634 }, // 너비 설정
+          height: { ideal: 766 }, // 높이 설정
+        },
+      })
       .then((stream) => {
         videoElement.srcObject = stream; // 스트림을 <video> 요소에 연결
         videoElement.play(); // 비디오 재생 시작
