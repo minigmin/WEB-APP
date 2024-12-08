@@ -114,6 +114,7 @@ body {
 .cam {
   width: 634px;
   height: 766px;
+  overflow: hidden;
 }
 
 .cam video {
