@@ -110,6 +110,12 @@ body {
   flex-direction: column;
   gap: 1.25rem;
 }
+
+.cam {
+  width: 634px;
+  height: 766px;
+}
+
 .cam video {
   width: 100%;
   height: 100%;
