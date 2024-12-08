@@ -36,7 +36,7 @@ $(document).ready(function () {
 
   async function loadModel() {
     try {
-      model = await tf.loadGraphModel(modelURL);
+      model = await tf.loadLayersModel(modelURL);
       console.log('Teachable Machine 모델 로드 완료');
     } catch (err) {
       console.error('모델 로드 실패:', err);
