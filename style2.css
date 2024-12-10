@@ -86,9 +86,351 @@ body {
 
 .button.active {
   color: #627bff;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.204);
 }
 
 .button.active .dot {
   opacity: 1;
+}
+
+/* 채원 */
+
+#stretch_intro{
+text-align: center;
+align-items: center;
+width: 35rem; height: 35rem;
+margin-left: auto; margin-right: auto;
+margin-top: auto; margin-bottom: auto;
+}
+
+h3{
+  font-size: 1rem; font-weight: 600;
+  color: #627BFF;
+}
+
+h2{
+  font-size: 1.5rem; font-weight: 400;
+  color: #7B81A1;
+  margin-bottom: 0.5rem;
+}
+
+h1{
+  font-size: 1.8rem; font-weight: 600;
+  color: #5E6484;
+  margin-bottom: 1.8rem;
+}
+
+button{
+  font-size: 1.1rem; font-weight: 500;
+  width: 10rem; height: 2.5rem;
+  border-radius: 30px; border: none;
+  background-color: #9CABFF; color: white;
+}
+
+button:hover{
+  background-color: #627BFF;
+  transition: all ease-in 0.2s;
+}
+
+.remain_time{
+  width: 31.125rem;
+  max-height: 1640px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #fff;
+  border-radius: 1.25rem;
+  padding: 16px 34px;
+}
+
+
+
+.contents .lengthbox {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 31.125rem;
+  height: 824px;
+}
+.contents {
+  width: 1160px;
+  height: 824px;
+  margin: auto;
+  gap: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contents .cambox {
+  width: 39.625rem;
+  height: 51.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cam {
+  width: 634px;
+  height: 766px;
+  overflow: hidden;
+}
+
+.cam video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cambox h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5e6484;
+}
+
+.cambox .cam {
+  width: 39.625rem;
+  height: 47.875rem;
+  background-color: #5e6484;
+  border-radius: 1.25rem;
+}
+
+.contents .timebox {
+  width: 31.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* css */
+
+.timebox h1{ color: #F2F3F7;}
+
+#remain_time_h1{
+  font-size: 1.6rem; color: #5E6484;
+  font-weight: 500;
+  margin: 0; padding: 0;
+}
+
+#remain_time_h2{
+  font-size: 4.5rem; font-weight: 200; color: #ADADAD;
+  margin: 0; padding: 0;
+}
+
+.stretch_step {
+  width: 31.125rem;
+  max-height: 300px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #fff;
+  border-radius: 1.25rem;
+  padding: 12px 30px;
+}
+
+.step_line{
+  display: flex;
+  width: 27rem;
+  padding-bottom: 15px; padding-top: 15px;
+  justify-content: space-between;
+  text-align: center; align-items: center;
+}
+
+
+.step_line h3{
+  font-size: 1.4rem;
+  color: #5E6484;
+}
+
+.step_line h4{
+  font-size: 1rem;
+  padding: 6px 14px;
+  border-radius: 15px;
+  background-color: aliceblue; color: #627BFF;
+}
+
+
+/* step_lines */
+
+.step_lines{
+  border-bottom: 1px solid rgb(211, 211, 211);
+  padding-bottom: 0.5rem;
+}
+.step_lines:last-child{border: none;}
+.step_lines:first-child{padding-top: 0px;}
+
+.step_lines img{
+  width: 4.2rem;
+  justify-content: space-between; 
+  align-items: center; 
+  gap: 10px; 
+}
+
+.bubble{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding-bottom: 7px;
+}
+.bubble > img{
+  display: block;
+}
+
+.success_box{
+  width: 31.125rem;
+  max-height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #fff;
+  border-radius: 1.25rem;
+  padding: 18px 39px;
+}
+
+.success_box h1{
+  font-weight: 500; font-size: 1.5rem;
+  margin: 0; padding: 0;
+}
+.success_box h2{
+  font-weight: 300; font-size: 4rem;
+  color: #627BFF;
+  margin: 0; padding: 0;
+}
+
+.tip_box{
+  width: 31.125rem;
+  max-height: 160px;
+  justify-content: space-between;
+  align-items: center;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #fff;
+  border-radius: 1.25rem;
+  padding: 20px 39px;
+}
+
+.tip_box h2{
+  font-size: 1.3rem;;
+  font-weight: 500; margin-bottom: 1rem;
+}
+
+.tip_box h3{
+  font-size: 1rem; font-weight: 500;
+  width: 17rem; line-height: 1.6rem;
+  color: #7B81A1;
+}
+
+/* 모달css */
+
+#result_modal{
+  opacity: 0;
+  position: absolute;
+  top: 40%; left: 50%;
+  transform: translate(-50%, -40%);
+  background-color: #F2F3F7;
+  width: 70rem; height: 55rem;
+  padding: 3rem 4rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 100px rgba(0, 0, 0, 0.289), 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  text-align: center;
+  align-items: center;
+}
+
+#result_box_type1{
+  background-color: white; border-radius: 20px;
+  display: flex;
+  width: 50rem; height: 9rem;
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+  justify-content: space-around;
+}
+
+.result_box_type1_content{
+border-right: 1px solid #C4C4C4;
+margin: 0.4rem 1rem;
+padding: 0 2.2rem;
+}
+.result_box_type1_content:last-child{
+  border-right: none;
+  }
+
+  .result_box_type1_content h1{
+    font-size: 1.3rem; font-weight: 500;
+    margin: 0; padding-bottom: 0.5rem;
+    }
+  .result_box_type1_content h2{
+      font-size: 3rem; font-weight: 300;
+      color: #627BFF;
+      }
+
+#result_box_type2{
+  background-color: white; border-radius: 20px;
+  width: 18rem; height: 22rem;
+  margin-right: 2rem;
+  padding: 3rem 2rem;
+}
+
+#result_box_type2 h1{
+ font-size: 1.3rem; font-weight: 400; color: #7B81A1;
+}
+
+#result_box_type3{
+  background-color: white; border-radius: 20px;
+  width:30rem; height: 22rem;
+  padding: 2.4rem 3rem;
+}
+
+.result_box_type3_content{
+  display: flex; gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.result_box_type3_content h1{
+font-size: 1.2rem;
+margin: 0; padding: 0;
+}
+
+.result_box_type3_content div img{
+  width: 3.2rem;
+}
+
+#result_box_type4 h1{
+  font-size: 1.8rem;  font-weight: 300; color: #7B81A1;
+  margin-top: 1.5rem; padding: 0;margin-bottom: 0.6rem;
+}
+
+#result_box_type4 h2{
+  font-size: 1.8rem;  font-weight: 600; color: #7B81A1;
+   padding: 0; margin-bottom: 1rem;
+}
+
+#result_css{
+  width: fit-content;
+  margin-left: auto;margin-right: auto;
+}
+
+#result_button{
+  font-size: 1.4rem;
+  width: 15rem; height: 3.2rem;
+}
+
+.bubble2{
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding-bottom: 7px;
+}
+
+.bubble2 > img{
+  display: block;
 }
