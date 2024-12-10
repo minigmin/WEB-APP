@@ -235,9 +235,10 @@ body {
   color: #c4c4c4;
 }
 
-.chart {
+.chart-container {
   width: 443px;
   height: 195px;
+  margin-top: -8px;
 }
 
 .boxtitle h2 {
@@ -286,4 +287,70 @@ body {
 .stretch-img img {
   width: 144px;
   height: 138px;
+}
+
+.chart-row {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  position: relative;
+}
+
+.chart-label {
+  width: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5e6484;
+}
+
+.chart-bar {
+  position: relative;
+  width: 220px;
+  height: 25px;
+  background-color: #e3e3e3;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-right: 23px;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, #9faeff, #768bff);
+  border-radius: 0 15px 15px 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.chart-value {
+  font-size: 14px;
+  width: 40px;
+  text-align: center;
+  font-weight: 500;
+  color: #5e6484; /* 텍스트 색상 */
+  margin-right: 23px; /* chart-bar와 status 사이의 간격 */
+}
+
+.chart-status {
+  width: 70px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-good {
+  background-color: #dff6e1;
+  color: #3fb650;
+}
+
+.status-bad {
+  background-color: #fde8e8;
+  color: #ec5f45;
+}
+
+.status-warning {
+  background-color: #fff4e0;
+  color: #feb947;
 }
