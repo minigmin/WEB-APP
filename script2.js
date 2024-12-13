@@ -169,9 +169,9 @@ $(document).ready(function () {
     const overlay = $('#overlay');
     overlay.show(); // 오버레이 표시
     overlay
-      .fadeIn(200)
-      .delay(300)
-      .fadeOut(600, () => {
+      .fadeIn(100)
+      .delay(200)
+      .fadeOut(500, () => {
         overlay.hide(); // 오버레이 숨김
       });
 
@@ -217,41 +217,6 @@ $(document).ready(function () {
 
   let bubbles = []; // 활성 비눗방울 저장
   const bubbleDuration = 8000; // 비눗방울 지속 시간 (ms)
-
-  function createBubble() {
-    const bubbleContainer = $('#bubble-container');
-    // 비눗방울 ID와 목표 자세 랜덤 생성
-    const bubbleId = `bubble-${Date.now()}`;
-
-    // 방향 좌우로 한정 (좌측: 10~30%, 우측: 70~90%)
-    const isLeft = Math.random() < 0.5; // 좌측(50%) 또는 우측(50%)
-    const leftPosition = isLeft
-      ? Math.random() * 10 + 20 // 좌측: 10% ~ 30%
-      : Math.random() * 10 + 80; // 우측: 70% ~ 90%
-    const topPosition = Math.random() * 10 + 60;
-
-    const targetClass = isLeft ? classLabels[0] : classLabels[1]; // 왼쪽 -> 첫 번째 클래스, 오른쪽 -> 두 번째 클래스
-    console.log(`비눗방울 생성: ${bubbleId}, 연결된 클래스: ${targetClass}`);
-
-    // 비눗방울 HTML 추가
-    const bubble = $(
-      `<div class="bubble" id="${bubbleId}" data-target="${targetClass}"></div>`
-    );
-    bubble.css({
-      left: `${leftPosition}%`, // 좌우 위치
-      top: `${topPosition}%`, // 상단 위치
-    });
-    bubbleContainer.append(bubble);
-
-    // 비눗방울 저장
-    bubbles.push({ id: bubbleId, targetClass });
-    console.log(`Bubble created:`, { id: bubbleId, targetClass });
-
-    // 비눗방울 자동 제거 (시간 초과)
-    setTimeout(() => {
-      removeBubble(bubbleId);
-    }, bubbleDuration);
-  }
 
   $('.modalBT').on('click', function () {
     $('#start-modal')
