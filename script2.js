@@ -5,7 +5,7 @@ let score = 0; // 점수 변수 추가
 const state = {
   activeLabel: null,
   startTime: null,
-  threshold: 0.5,
+  threshold: 0.8,
   duration: 3000, // 3초 유지 조건 (ms)
 };
 
@@ -154,6 +154,67 @@ $(document).ready(function () {
     }
   }
 
+  // 비눗방울 제거 함수
+  function removeBubble(bubbleId) {
+    const bubbleElement = $(`#${bubbleId}`);
+
+    // 비눗방울의 background-image를 GIF로 변경
+    bubbleElement.css({
+      backgroundImage: 'url(./image/버블터질때.gif)', // GIF 경로
+      backgroundSize: 'cover', // GIF 크기 맞추기
+      backgroundRepeat: 'no-repeat', // 반복 방지
+      backgroundPosition: 'center', // 중앙 정렬
+    });
+
+    const overlay = $('#overlay');
+    overlay.show(); // 오버레이 표시
+    overlay
+      .fadeIn(200)
+      .delay(300)
+      .fadeOut(600, () => {
+        overlay.hide(); // 오버레이 숨김
+      });
+
+    // 1초 후 비눗방울 제거
+    setTimeout(() => {
+      bubbleElement.remove(); // 비눗방울 제거
+      bubbles = bubbles.filter((bubble) => bubble.id !== bubbleId); // 배열에서 제거
+    }, 500); // 1초 후 제거
+
+    setTimeout(() => {
+      bubbleElement.remove(); // 비눗방울 제거
+      bubbles = bubbles.filter((bubble) => bubble.id !== bubbleId); // 배열에서 제거
+    }, 500); // GIF 재생 시간 동안 유지
+  }
+
+  // 랜덤 목표 자세 반환
+  function getRandomClass() {
+    if (classLabels.length === 0) {
+      console.error('클래스 이름이 로드되지 않았습니다.');
+      return null;
+    }
+
+    const validClasses = classLabels.filter((label, index) => index !== 2); // 3번째 클래스 제외
+    const randomClass =
+      validClasses[Math.floor(Math.random() * validClasses.length)];
+    console.log('랜덤으로 선택된 클래스:', randomClass);
+    return randomClass;
+  }
+
+  init();
+
+  setInterval(() => {
+    if (score >= 5) {
+      console.log('최대 점수에 도달했습니다. 비눗방울 생성을 중단합니다.');
+      clearInterval(bubbleInterval); // **비눗방울 생성 중단**
+      return;
+    }
+
+    if (bubbles.length < 2) {
+      createBubble(); // 비눗방울 최대 2개 유지
+    }
+  }, 8000); // 8초마다 새로운 비눗방울 생성
+
   let bubbles = []; // 활성 비눗방울 저장
   const bubbleDuration = 8000; // 비눗방울 지속 시간 (ms)
 
@@ -192,46 +253,106 @@ $(document).ready(function () {
     }, bubbleDuration);
   }
 
-  // 비눗방울 제거 함수
-  function removeBubble(bubbleId) {
-    $(`#${bubbleId}`).remove();
-    bubbles = bubbles.filter((bubble) => bubble.id !== bubbleId);
-  }
-
-  // 랜덤 목표 자세 반환
-  function getRandomClass() {
-    if (classLabels.length === 0) {
-      console.error('클래스 이름이 로드되지 않았습니다.');
-      return null;
-    }
-
-    const validClasses = classLabels.filter((label, index) => index !== 2); // 3번째 클래스 제외
-    const randomClass =
-      validClasses[Math.floor(Math.random() * validClasses.length)];
-    console.log('랜덤으로 선택된 클래스:', randomClass);
-    return randomClass;
-  }
-
-  init();
-
-  setInterval(() => {
-    if (score >= 5) {
-      console.log('최대 점수에 도달했습니다. 비눗방울 생성을 중단합니다.');
-      clearInterval(bubbleInterval); // **비눗방울 생성 중단**
-      return;
-    }
-
-    if (bubbles.length < 2) {
-      createBubble(); // 비눗방울 최대 2개 유지
-    }
-  }, 8000); // 8초마다 새로운 비눗방울 생성
-
   $('.modalBT').on('click', function () {
     $('#start-modal')
       .css('opacity', '1')
       .animate({ opacity: 0 }, 600, function () {
-        $(this).css('display', 'none'); // 페이드 아웃 후 요소를 숨김
+        $(this).css('opacity', '0'); // 페이드 아웃 후 요소를 숨김
       });
     console.log('Modal hidden by lowering z-index.');
+
+    let bubbles = []; // 활성 비눗방울 저장
+    const bubbleDuration = 8000; // 비눗방울 지속 시간 (ms)
+
+    function createBubble() {
+      const bubbleContainer = $('#bubble-container');
+      // 비눗방울 ID와 목표 자세 랜덤 생성
+      const bubbleId = `bubble-${Date.now()}`;
+
+      // 방향 좌우로 한정 (좌측: 10~30%, 우측: 70~90%)
+      const isLeft = Math.random() < 0.5; // 좌측(50%) 또는 우측(50%)
+      const leftPosition = isLeft
+        ? Math.random() * 10 + 20 // 좌측: 10% ~ 30%
+        : Math.random() * 10 + 80; // 우측: 70% ~ 90%
+      const topPosition = Math.random() * 10 + 60;
+
+      const targetClass = isLeft ? classLabels[0] : classLabels[1]; // 왼쪽 -> 첫 번째 클래스, 오른쪽 -> 두 번째 클래스
+      console.log(`비눗방울 생성: ${bubbleId}, 연결된 클래스: ${targetClass}`);
+
+      // 비눗방울 HTML 추가
+      const bubble = $(
+        `<div class="bubble" id="${bubbleId}" data-target="${targetClass}"></div>`
+      );
+      bubble.css({
+        left: `${leftPosition}%`, // 좌우 위치
+        top: `${topPosition}%`, // 상단 위치
+      });
+      bubbleContainer.append(bubble);
+
+      // 비눗방울 저장
+      bubbles.push({ id: bubbleId, targetClass });
+      console.log(`Bubble created:`, { id: bubbleId, targetClass });
+
+      // 비눗방울 자동 제거 (시간 초과)
+      setTimeout(() => {
+        removeBubble(bubbleId);
+      }, bubbleDuration);
+    }
+
+    setTimeout(function () {
+      $('#tipbox')
+        .css('opacity', '1') // 초기 상태 설정
+        .animate({ opacity: 0 }, 600, function () {
+          $(this).css('opacity', '0'); // 페이드 아웃 후 요소 숨김
+        });
+
+      // #tipBT의 opacity를 1로 설정
+      $('#tipBT')
+        .css('opacity', '0')
+        .animate({ opacity: 1 }, 600, function () {
+          $(this).css('opacity', '1'); // 페이드 아웃 후 요소 숨김
+        });
+    }, 5000); // 5000ms = 5초
+
+    setTimeout(function () {
+      $('#silhouette-container')
+        .css('opacity', '0.5') // 초기 상태 설정
+        .animate({ opacity: 0 }, 600, function () {
+          $(this).css('opacity', '0'); // 페이드 아웃 후 요소 숨김
+        });
+    }, 5000); // 5000ms = 5초
+  });
+
+  $('#tipBT').on('click', function () {
+    // Tipbox의 opacity 상태 확인
+    if ($('#tipbox').css('opacity') === '0') {
+      // Tipbox의 opacity를 1로 설정하고 5초 후 다시 숨김
+      $('#tipbox')
+        .css('opacity', '0') // 보이도록 설정
+        .animate({ opacity: 1 }, 600, function () {
+          $(this).css('opacity', '1'); // 페이드 아웃 후 요소 숨김
+        }); // 애니메이션 효과
+
+      $('#tipBT')
+        .css(`opacity`, `1`)
+        .animate({ opacity: 0 }, 600, function () {
+          $(this).css('opacity', '0'); // 완전히 숨김
+        });
+
+      // 5초 후 다시 숨김
+      setTimeout(function () {
+        $('#tipbox')
+          .css(`opacity`, `1`)
+          .animate({ opacity: 0 }, 600, function () {
+            $(this).css('opacity', '0'); // 완전히 숨김
+          });
+
+        $('#tipBT')
+          .css(`opacity`, `0`)
+          .animate({ opacity: 1 }, 600, function () {
+            $(this).css('opacity', '1'); // 완전히 숨김
+          });
+      }, 5000);
+    }
   });
 });
