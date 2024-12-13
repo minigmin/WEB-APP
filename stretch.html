@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="style2.css" />
     <link
       rel="stylesheet"
@@ -15,144 +16,17 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <div class="grid-container">
-      <div class="sidebar">
-        <h1>Menu</h1>
-        <ul>
-          <li>
-            <a href="./index.html" class="button"
-              >Report <span class="dot"></span
-            ></a>
-          </li>
-          <li>
-            <a href="./stretch.html" class="button"
-              >Stretch <span class="dot"></span
-            ></a>
-          </li>
-        </ul>
-      </div>
-      <div class="contents">
-        <div class="cambox">
-          <h1>Stretch Game</h1>
-          <div class="cam">
-            <video id="webcam" autoplay playsinline muted></video>
-          </div>
-        </div>
-        <div class="lengthbox">
-          <div class="timebox">
-            <h1>.</h1>
-            <div class="remain_time">
-                <h1 id="remain_time_h1">남은 시간</h1>
-                <h2 id="remain_time_h2">00:34</h2>
-            </div>
-          </div>
-
-        <div class="stretch_step">
-          <div class="step_lines">
-            <div class="step_line">
-              <h3>1단계</h3>
-              <h4>성공</h4>
-            </div>
-          </div>
-          <div class="step_lines">
-            <div class="step_line">
-              <h3>2단계</h3>
-              <h4>도전 중</h4>
-            </div>
-            <div class="bubble">
-              <img src="bubble_type2.png"><img src="bubble_type2.png">
-              <img src="bubble_type2.png"><img src="bubble_type2.png">
-              <img src="bubble_type2.png">
-            </div>
-          </div>
-          <div class="step_lines">
-          <div class="step_line">
-            <h3>3단계</h3>
-            <h4>미도전</h4>
-          </div>
-        </div>
-        </div>
-            <div class="success_box">
-                <h1>성공률</h1>
-                <h2>56.7%</h2>
-            </div>
-              <div class="tip_box">
-                <h2>tip</h2>
-                <h3>한쪽 팔로 다른 한쪽 팔의 바깥 
-                  부분을 잡아서 뒤쪽으로 당겨줍니다.</br>양 팔을 5초간 반복하세요.</h3>
-              </div>
-        </div>
-      </div>
-      
+    <div id="game-container">
+      <div id="webcam-container"><canvas id="canvas"></canvas></div>
+      <div id="bubble-container"></div>
+      <div id="score-container">Score: 0</div>
+      <div id="label-container"></div>
     </div>
-
-    <div id="result_modal">
-      <h1>result</h1>
-
-
-<div id="result_css">
-      <div id="result_box_type1">
-        <div class="result_box_type1_content">
-          <h1>총 스트레칭 시간</h1>
-          <h2>02:48</h2>
-        </div>
-        <div class="result_box_type1_content">
-          <h1>성공률</h1>
-          <h2>87.8%</h2>
-        </div>
-        <div class="result_box_type1_content">
-          <h1>오늘의 스트레칭 횟수</h1>
-          <h2>2회</h2>
-        </div>
-      </div>
-
-      <div style="display: flex;">
-      <div id="result_box_type2">
-        <h1>작업시간 대비</br>스트레칭 시간</h1>
-      </div>
-
-      <div id="result_box_type3">
-        <div class="result_box_type3_content">
-          <h1>1단계</h1>
-          <div class="bubble2">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png">
-          </div>
-        </div>
-        <div class="result_box_type3_content">
-          <h1>2단계</h1>
-          <div class="bubble2">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png">
-          </div>
-        </div>
-        <div class="result_box_type3_content">
-          <h1>3단계</h1>
-          <div class="bubble2">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png"><img src="bubble_type2.png">
-            <img src="bubble_type2.png">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-      <div id="result_box_type4">
-        <h1>스트레칭 동작을 무사히 마쳤습니다!</h1>
-        <h2>다시 바른 자세로 작업을 시작해보아요.</h2>
-      </div>
-
-      <button id="result_button">돌아가기</button>
-    </div>
-
     <script src="script2.js"></script>
   </body>
 </html>
