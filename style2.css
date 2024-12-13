@@ -7,49 +7,138 @@
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 }
+
 body {
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #d9d9d9;
 }
+
+#start-modal {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f2f3f7;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 45px;
+}
+
+.timebox h1 {
+  font-size: 25px;
+  font-weight: 500;
+  color: #627bff;
+}
+
+.hero-img {
+  width: 520px;
+  height: 344px;
+  margin: 15px 0px;
+}
+
+#start-modal .textbox {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+}
+
+#start-modal .textbox p {
+  font-size: 32px;
+  font-weight: 400;
+  color: #7b81a1;
+}
+
+.modalBT {
+  width: 276px;
+  height: 67px;
+  color: #8174e5;
+  background-color: #fff;
+  border: 2px solid #9cabff;
+  border-radius: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalBT:hover {
+  background-color: #9cabff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modalBT p {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.textbox h2 {
+  font-size: 40px;
+  font-weight: 600;
+  color: #5e6484;
+}
+
 #process-bar {
-  position: relative;
-  width: 1440px;
+  position: absolute;
+  width: 0;
   height: 16px;
   background-color: #ffffff;
 }
+
 #process-bar .color-bar {
   position: absolute;
-  width: calc(288px * 5);
+  width: 0;
   height: 16px;
   background: linear-gradient(90deg, #9faeff 0%, #7386ff 100%);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 }
+
 #game-container {
-  width: 1440px;
+  width: 100%;
   height: 100%;
   position: relative;
 }
+
 #webcam-container {
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
 }
+
 #canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 #bubble-container {
   width: 100%;
   height: 100%;
   z-index: 2;
   pointer-events: none;
 }
+
+#silhouette-container {
+  position: absolute;
+  top: 70vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 690px;
+  z-index: 1;
+  background-image: url(./image/실루엣1.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.5;
+}
+
 .bubble {
   position: absolute;
   top: 0;
@@ -63,6 +152,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 #score-container {
   position: absolute;
   top: 42.5px;
@@ -72,7 +162,7 @@ body {
   width: 696px;
   height: 85px;
   margin-top: 80px;
-  z-index: 3;
+  z-index: 2;
   background-color: #ffffff;
   border-radius: 50px;
   display: flex;
@@ -82,17 +172,20 @@ body {
   padding: 10px 10px;
   gap: 24px;
 }
+
 #score-container h1 {
   font-size: 21px;
   text-align: center;
   font-weight: 600;
   color: #5e6484;
 }
+
 #score-container .score-box {
   display: flex;
   flex-direction: row;
   gap: 24px;
 }
+
 #score-container .bubble-score {
   display: block;
   width: 65px;
@@ -122,8 +215,64 @@ body {
   background-color: #e9f7ec;
   border-radius: 16px;
 }
+
 #score-container .current-box p {
   font-size: 14px;
   font-weight: 600;
   color: #3fb650;
+}
+
+#tipbox {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vw;
+  z-index: 1;
+  width: 318px;
+  height: 424px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+#tipbox img {
+  width: 256px;
+  height: 213px;
+}
+
+#tipbox .textbox {
+  width: 256px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#tipbox .textbox .tiptitle {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+#tipbox .textbox .tiptitle .circle {
+  width: 18px;
+  height: 18px;
+  background-color: #ffc667;
+  border-radius: 18px;
+}
+
+#tipbox .textbox .tiptitle h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #5e6484;
+}
+
+#tipbox .textbox p {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #7b81a1;
 }
