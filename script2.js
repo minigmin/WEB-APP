@@ -13,6 +13,12 @@ $(document).ready(function () {
   init();
 
   setInterval(() => {
+    if (score >= 5) {
+      console.log('최대 점수에 도달했습니다. 비눗방울 생성을 중단합니다.');
+      clearInterval(bubbleInterval); // **비눗방울 생성 중단**
+      return;
+    }
+
     if (bubbles.length < 2) {
       createBubble(); // 비눗방울 최대 2개 유지
     }
@@ -35,15 +41,15 @@ async function init() {
 
     // 웹캠 설정
     const flip = true;
-    webcam = new tmPose.Webcam(766, 766, flip);
+    webcam = new tmPose.Webcam(1440, 1024, flip);
     await webcam.setup();
     await webcam.play();
     console.log('웹캠 로드 성공');
 
     // canvas 설정
     const canvas = $('#canvas')[0];
-    canvas.width = 634;
-    canvas.height = 766;
+    canvas.width = 1440;
+    canvas.height = 1024;
     ctx = canvas.getContext('2d');
 
     // 예측 루프 시작
@@ -94,13 +100,13 @@ function processPredictions(predictions) {
         topPrediction.className !== excludedClassName
       ) {
         console.log(`3초 동안 유지된 클래스: ${state.activeLabel}`);
-        updateScore(); // 점수 업데이트
 
         const matchedBubble = bubbles.find(
           (bubble) => bubble.targetClass === topPrediction.className
         );
         if (matchedBubble) {
           removeBubble(matchedBubble.id); // 비눗방울 제거
+          updateScore(); // 점수 업데이트
         }
 
         resetState(); // 상태 초기화
@@ -122,9 +128,20 @@ function resetState() {
 
 // 점수 업데이트 함수
 function updateScore() {
+  // **최대 점수를 5점으로 제한**
+  if (score >= 5) {
+    console.log('최대 점수에 도달했습니다.');
+    return;
+  }
+
   score += 1;
   console.log(`Score: ${score}`);
-  $('#score-container').text(`Score: ${score}`);
+  // **점수가 올라갈 때 해당 `.bubble-score`에 `active` 클래스 추가**
+  const scoreElement = $('.score-box .bubble-score').eq(score - 1);
+  if (scoreElement.length > 0) {
+    scoreElement.addClass('active');
+    console.log(`Score bubble activated: ${score}`);
+  }
 }
 
 // 포즈 그리기 함수
@@ -143,7 +160,7 @@ function drawPose(pose) {
 }
 
 let bubbles = []; // 활성 비눗방울 저장
-const bubbleDuration = 10000; // 비눗방울 지속 시간 (ms)
+const bubbleDuration = 8000; // 비눗방울 지속 시간 (ms)
 
 function createBubble() {
   const bubbleContainer = $('#bubble-container');
@@ -153,9 +170,9 @@ function createBubble() {
   // 방향 좌우로 한정 (좌측: 10~30%, 우측: 70~90%)
   const isLeft = Math.random() < 0.5; // 좌측(50%) 또는 우측(50%)
   const leftPosition = isLeft
-    ? Math.random() * 10 + 10 // 좌측: 10% ~ 30%
-    : Math.random() * 10 + 70; // 우측: 70% ~ 90%
-  const topPosition = Math.random() * 10 + 50;
+    ? Math.random() * 10 + 20 // 좌측: 10% ~ 30%
+    : Math.random() * 10 + 80; // 우측: 70% ~ 90%
+  const topPosition = Math.random() * 10 + 60;
 
   const targetClass = isLeft ? classLabels[0] : classLabels[1]; // 왼쪽 -> 첫 번째 클래스, 오른쪽 -> 두 번째 클래스
   console.log(`비눗방울 생성: ${bubbleId}, 연결된 클래스: ${targetClass}`);
