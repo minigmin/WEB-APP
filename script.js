@@ -5,6 +5,28 @@ $(document).ready(function () {
   // 첫 번째 버튼에 active 클래스 추가
   $('.button:first').addClass('active');
 
+  $('#Bell').on('click', function () {
+    // 현재 이미지 src 확인 후 변경
+    const src = $(this).attr('src');
+    if (src.includes('Bell.png')) {
+      $(this).attr('src', 'image/Bell_dark.png'); // 다른 이미지 경로
+    } else {
+      $(this).attr('src', 'image/Bell.png');
+      alertSound.pause(); // 원래 이미지 경로
+    }
+  });
+
+  var today = new Date();
+  let year = today.getFullYear();
+  let month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+  let day = String(today.getDate()).padStart(2, '0');
+
+  // 포맷팅된 날짜 문자열 생성
+  var formattedDate = year + '.' + month + '.' + day;
+
+  // 날짜를 <p> 태그에 삽입
+  $('#date').text(formattedDate);
+
   //웹캠 적용 코드
   const URL = './model/';
   let model, webcam, ctx, maxPredictions;
@@ -13,8 +35,15 @@ $(document).ready(function () {
   const state = {
     activeLabel: null, // 현재 10초 조건을 만족하려는 클래스 이름
     startTime: null, // activeLabel의 시작 시간
-    threshold: 0.5, // 예측 확률 기준값
+    threshold: 0.8, // 예측 확률 기준값
     duration: 3000, // 10초 (ms)
+  };
+
+  const alertSounds = {
+    '화면 이탈': $('#alert-screen')[0],
+    '거북이 목': $('#alert-turtle')[0],
+    '턱 괴기': $('#alert-chin')[0],
+    '어깨 비틀림': $('#alert-shoulder')[0],
   };
 
   // 모델 및 웹캠 초기화 함수
@@ -104,6 +133,13 @@ $(document).ready(function () {
       state.activeLabel = null;
       state.startTime = null;
     }
+
+    // 모든 데이터 값 검사: 16 이상이면 함수 종료
+    const isMaxValueReached = data.some((item) => item.value >= 16);
+    if (isMaxValueReached) {
+      console.log('값이 16 이상입니다. processPredictions 함수 종료.');
+      return; // 함수 실행 중단
+    }
   }
 
   // 포즈 그리기 함수
@@ -139,31 +175,39 @@ $(document).ready(function () {
 
   const timelineContainer = $('.timeline .scroll-container'); // 타임라인 컨테이너
 
-  // 타임라인에 데이터 추가 함수
   function addTimelineEntry(time, label) {
-    // 중복된 시간 확인
     const existingEntry = timelineContainer.find('li h2').filter(function () {
-      return $(this).text() === time; // 이미 같은 시간의 <h2>가 있는지 확인
+      return $(this).text() === time;
     });
+    const imageMap = {
+      '화면 이탈': 'image/timeline_icon1.png',
+      '거북이 목': 'image/timeline_icon3.png',
+      '턱 괴기': 'image/timeline_icon2.png',
+      '어깨 비틀림': 'image/timeline_icon4.png',
+    };
 
-    // 중복된 시간이 없을 때만 추가
+    const imageSrc = imageMap[label];
+
     if (existingEntry.length === 0) {
       const newEntry = `
-        <li>
-          <h2>${time}</h2>
+      <li>
+      <div class="timeline_container">
+        <img src="${imageSrc}">
+        <div class="timeline_container_small">
           <p>${label}</p>
-        </li>
-        <hr class="line"></hr>
+          <h2>${time}</h2>
+        </div>
+      </div>
+    </li>
+    <hr class="line"></hr>
       `;
 
-      // 타임라인에 새 항목 추가
       timelineContainer.prepend(newEntry);
 
-      // 오래된 항목 제거 (최대 5개 유지)
       const timelineItems = timelineContainer.find('li');
       if (timelineItems.length > 5) {
-        timelineItems.last().next('hr').remove(); // 마지막 항목의 <hr> 제거
-        timelineItems.last().remove(); // 마지막 항목 제거
+        timelineItems.last().next('hr').remove();
+        timelineItems.last().remove();
       }
     }
   }
@@ -192,6 +236,19 @@ $(document).ready(function () {
           // 차트 업데이트 (선택 사항)
           updateChart(state.activeLabel);
 
+          let alertSound = alertSounds[state.activeLabel];
+          if (alertSound) {
+            let currentSrc = $('#Bell').attr('src');
+
+            if (currentSrc.includes('Bell.png')) {
+              alertSound.pause();
+              alertSound.currentTime = 0;
+            } else {
+              alertSound.currentTime = 0;
+              alertSound.play();
+            }
+          }
+
           // 상태 초기화
           state.activeLabel = null;
           state.startTime = null;
@@ -218,6 +275,11 @@ $(document).ready(function () {
     const dataItem = data.find((item) => item.name === label);
     if (!dataItem) return; // 해당 라벨이 데이터에 없으면 종료
 
+    if (dataItem.value >= 16) {
+      console.log(`${label}의 값이 이미 16 이상입니다. 함수 종료.`);
+      return;
+    }
+
     // 해당 라벨의 값 증가
     dataItem.value += 1;
 
@@ -229,12 +291,14 @@ $(document).ready(function () {
         .text('경고')
         .removeClass('status-good')
         .addClass('status-warning');
-    } else if (dataItem.value > 10) {
+    } else if (dataItem.value > 10 && dataItem.value <= 15) {
       dataItem.status = '나쁨';
       $(`.chart-row[data-label="${dataItem.name}"] .chart-status`)
         .text('나쁨')
         .removeClass('status-good status-warning')
         .addClass('status-bad');
+    } else if (dataItem.value == 16) {
+      modalUP();
     }
 
     // 차트 행과 요소 선택
@@ -251,4 +315,17 @@ $(document).ready(function () {
     barFill.css('width', `${percentage}%`); // 바 너비 설정
     valueLabel.text(`${dataItem.value}회`); // 값 레이블 업데이트
   }
+
+  function modalUP() {
+    $('#pop-up')
+      .css({ opacity: '0', zIndex: '2' })
+      .animate({ opacity: 1 }, 600, function () {
+        $(this).css('opacity', '1');
+      });
+    console.log('모달 등장');
+  }
+
+  $('.start_button').on('click', function () {
+    window.location.href = './stretch.html';
+  });
 });
