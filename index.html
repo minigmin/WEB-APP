@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
@@ -45,30 +46,27 @@
         </div>
         <div class="lengthbox">
           <div class="timebox">
-            <h1>Timeline</h1>
+            <div style="display: flex; justify-content: space-between;"><h1>Timeline</h1> <img  id="Bell" src="image/Bell.png" style="cursor: pointer;"></div>
             <div class="timeline">
               <ul class="scroll-container">
                 <li>
-                  <h2>00:02:33</h2>
-                  <p>화면 이탈</p>
-                </li>
-                <hr class="line"></hr>
-                <li>
+                  <div class="timeline_container">
+                    <img src="image/timeline_icon1.png">
+                  <div class="timeline_container_small">
+                  <p>화면 이탈<p>
                   <h2>00:01:55</h2>
-                  <p>턱 괴기 감지</p>
-                </li>
-                <hr class="line"></hr>
+                </div>
+              </div>
+            </li>
+              <hr class="line"></hr>
                 <li>
-                  <h2>00:01:31</h2>
-                  <p>거북목 감지</p>
-                </li><hr class="line"></hr>
-                <li>
-                  <h2>00:00:54</h2>
-                  <p>어깨 틀어짐</p>
-                </li><hr class="line"></hr>
-                <li>
-                  <h2>00:00:26</h2>
-                  <p>거북목 감지</p>
+                  <div class="timeline_container">
+                    <img src="image/timeline_icon1.png">
+                  <div class="timeline_container_small">
+                  <p>화면 이탈<p>
+                  <h2>00:01:50</h2>
+                </div>
+              </div>
                 </li>
               </ul>
             </div>
@@ -76,7 +74,7 @@
           <div class="alertbox">
             <div class="alert">
               <div class="boxtitle">
-              <p>2024.12.06</p>
+              <p id="date">2024.12.06</p>
               <h2>오늘의 알람 횟수</h2>
             </div>
             <div class="chart-container">
@@ -118,7 +116,9 @@
           <div class="stretchbox">
             <div class="stretch">
               <h2>의자에 앉아서 할 수 있는<br>스트레칭 게임을 즐겨보세요.</h2>
-              <button class="bt">지금 시작하기</button>
+              <a href="st.html">
+                <button class="bt">지금 시작하기</button>
+              </a>
             </div>
             <div class="stretch-img">
               <img src="./image/main1.png" alt="">
@@ -127,6 +127,20 @@
         </div>
       </div>
     </div>
+    <div id="pop-up">
+    <div id="start_stretch_modal">
+      <div class="textbox">
+      <h1>나쁜 자세 횟수가 15회가 넘어가요!</h1>
+      <h2>스트레칭 게임과 함께 5분간 휴식해봅시다.</h2>
+      </div>
+      <div class="start_button">
+        <p>시작하기</p></div>
+    </div>
+  </div>
+  <audio id="alert-screen" src="Sound/1.mp3"></audio>
+<audio id="alert-turtle" src="Sound/2.mp3"></audio>
+<audio id="alert-chin" src="Sound/3.mp3"></audio>
+<audio id="alert-shoulder" src="Sound/4.mp3"></audio>
     <script src="script.js"></script>
   </body>
 </html>
