@@ -13,17 +13,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(220, 210, 255, 0.3);
-  z-index: 5;
+  z-index: 4;
   display: none;
   pointer-events: none;
 }
@@ -31,8 +32,8 @@ body {
 #start-modal {
   position: absolute;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #f2f3f7;
   z-index: 3;
   display: flex;
@@ -71,9 +72,8 @@ body {
 .modalBT {
   width: 276px;
   height: 67px;
-  color: #8174e5;
-  background-color: #fff;
-  border: 2px solid #9cabff;
+  color: #fff;
+  background-color: #9cabff;
   border-radius: 60px;
   display: flex;
   justify-content: center;
@@ -81,8 +81,9 @@ body {
 }
 
 .modalBT:hover {
-  background-color: #9cabff;
-  color: #fff;
+  background-color: #fff;
+  border: 2px solid #9cabff;
+  color: #8174e5;
   cursor: pointer;
 }
 
@@ -315,4 +316,98 @@ body {
   font-size: 24px;
   font-weight: 600;
   color: #5e6484;
+}
+
+#last-modal {
+  z-index: 2;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.35);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+#end-modal {
+  width: 475px;
+  height: 478px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 60px 35px 60px;
+  border-radius: 20px;
+  gap: 30px;
+}
+
+#end-modal img {
+  width: 175px;
+  height: 188px;
+}
+
+#end-modal .textbox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+#end-modal .textbox p {
+  font-weight: 400;
+  font-size: 21px;
+  color: #5e6484;
+}
+
+#end-modal .textbox h2 {
+  font-weight: 600;
+  font-size: 24px;
+  color: #5e6484;
+}
+
+#end-modal h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #7b81a1;
+  margin-top: 10px;
+}
+
+#end-modal .BTbox {
+  width: 354px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#end-modal .BTbox .endBT {
+  width: 243px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #9cabff;
+}
+
+.endBT p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+#end-modal .BTbox .endBT:hover {
+  border: none;
+  background-color: #fff;
+  border: 2px solid #9cabff;
+}
+
+#end-modal .BTbox .endBT:hover p {
+  color: #8174e5;
 }
