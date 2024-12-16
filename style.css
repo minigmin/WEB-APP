@@ -10,6 +10,7 @@
 
 body {
   background-color: #f2f3f7;
+  overflow: hidden;
 }
 
 .grid-container {
@@ -155,24 +156,25 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   color: #5e6484;
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
 .timebox .timeline {
   width: 31.125rem;
-  max-height: 209px;
+  max-height: 219px;
+  padding-top: 10px;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
   background-color: #fff;
   border-radius: 1.25rem;
-  padding: 29px 39px;
+  padding: 35px 39px;
 }
 
 .timeline ul {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   list-style: none;
   overflow: hidden;
   max-height: 136px;
@@ -195,7 +197,7 @@ body {
 }
 
 .timeline ul li h2 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   color: #959595;
 }
@@ -204,6 +206,22 @@ body {
   font-size: 20px;
   font-weight: 600;
   color: #5e6484;
+  margin-bottom: 8px;
+}
+
+.timeline ul li img {
+  width: 56px;
+  height: 56px;
+  margin-right: 32px;
+}
+
+.timeline_container {
+  display: flex;
+  align-items: center;
+}
+
+.timeline_container_small {
+  gap: 6px;
 }
 
 .alertbox {
@@ -353,4 +371,71 @@ body {
 .status-warning {
   background-color: #fff4e0;
   color: #feb947;
+}
+
+#pop-up {
+  z-index: -1;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.35);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+#start_stretch_modal {
+  background-color: #ffffff;
+  width: 786px;
+  height: 360pxm;
+  padding: 83px 95px;
+  border-radius: 20px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}
+
+#start_stretch_modal .textbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#start_stretch_modal .textbox h1 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #7b81a1;
+}
+
+#start_stretch_modal .textbox h2 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #5e6484;
+}
+
+#start_stretch_modal .start_button {
+  width: 276px;
+  height: 67px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #9cabff;
+  cursor: pointer;
+}
+
+#start_stretch_modal .start_button:hover {
+  background-color: #fff;
+  color: #8174e5;
+  border: 2px solid #9cabff;
 }
